@@ -34,6 +34,24 @@ def skynet(q, z):
     print(response.choices[0].text)
 
 
+def skynetstream(q, z):
+    """Chat completion with GPT-3.5-Turbo"""
+    open.api_key = f"{z}"
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": f"{q}"}],
+        temperature=0,
+        stream=True,
+    )
+    collected_chunk = []
+    collected_messages = []
+    for chunk in response:
+        collected_chunks.append(chunk)
+        chunk_message = chunk["choices"][0]["delta"]
+        collected_messages.append(chunk_message)
+        print(f"{chunk_message}")
+
+
 def imgcreate(q, z):
     """Image creation.
     Use "img" followed by text description of image, to create an image using Dall-E".
@@ -62,6 +80,8 @@ def editgpt(q, z):
 if __name__ == "__main__":
     if cmd == "query":
         skynet(question, api)
+    if cmd == "stream":
+        skynetstream(question, api)
     if cmd == "img":
         imgcreate(question, api)
     if cmd == "edit":
