@@ -43,7 +43,7 @@ def skynetstream(q, z):
         temperature=0,
         stream=True,
     )
-    collected_chunk = []
+    collected_chunks = []
     collected_messages = []
     for chunk in response:
         collected_chunks.append(chunk)
