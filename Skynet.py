@@ -36,7 +36,7 @@ def skynet(q, z):
 
 def skynetstream(q, z):
     """Chat completion with GPT-3.5-Turbo"""
-    open.api_key = f"{z}"
+    openai.api_key = f"{z}"
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": f"{q}"}],
