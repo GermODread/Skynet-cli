@@ -16,40 +16,19 @@ def helperdocumentation():
     print(imgcreate.__doc__)
 
 
-def skynet(q, z):
-    """Ask GPT-3 anything.
-    use "query" followed by inquiry or question to query at GPT-3.
-    Uses text-davinci-003 language model to fetch answers from, trained on 2021 content.
-    """
-    openai.api_key = f"{z}"
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=f"{q}",
-        temperature=0.0,
-        max_tokens=500,
-        top_p=1,
-        frequency_penalty=0.0,
-        presence_penalty=0.0,
-    )
-    print(response.choices[0].text)
-
-
 def skynetstream(q, z):
-    """Chat completion with GPT-3.5-Turbo"""
+    """Chat completion with GPT-4
+    Not using stream version"""
     openai.api_key = f"{z}"
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": f"{q}"}],
-        temperature=0,
-        stream=True,
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "Welcome to the new World"},
+            {"role": "user", "content": f"{q}"},
+            {"role": "assistant", "content": ""}
+            ],
     )
-    collected_chunks = []
-    collected_messages = []
-    for chunk in response:
-        collected_chunks.append(chunk)
-        chunk_message = chunk["choices"][0]["delta"]
-        collected_messages.append(chunk_message)
-        print(f"{chunk_message}")
+    print(response['choices'][0]['message']['content'])
 
 
 def imgcreate(q, z):
@@ -78,8 +57,6 @@ def editgpt(q, z):
 
 
 if __name__ == "__main__":
-    if cmd == "query":
-        skynet(question, api)
     if cmd == "stream":
         skynetstream(question, api)
     if cmd == "img":
