@@ -1,9 +1,13 @@
 #!/usr/bin/python3
 
 import openai
+import os
 import sys
 
-api = "INSERT API KEY"  # Not recommended to keep it here. Save using OpenAI builtin asset management function.
+### Add the following line to .bashrc or .zshrc or any profile
+# export OPENAI_API_KEY='API key'
+
+api = 'OPEN_AI_API'  # Not recommended to keep it here. Save using OpenAI builtin asset management function.
 cmd = sys.argv[1]
 args = sys.argv[2:]
 question = " ".join(args)
@@ -11,7 +15,7 @@ question = " ".join(args)
 
 def helperdocumentation():
     print("Available functions:")
-    print(skynet.__doc__)
+    print(skynetstream.__doc__)
     print(editgpt.__doc__)
     print(imgcreate.__doc__)
 
@@ -19,7 +23,7 @@ def helperdocumentation():
 def skynetstream(q, z):
     """Chat completion with GPT-4
     Not using stream version"""
-    openai.api_key = f"{z}"
+    openai.api_key = os.getenv(z)
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
@@ -36,7 +40,7 @@ def imgcreate(q, z):
     Use "img" followed by text description of image, to create an image using Dall-E".
     Uses dall-e language model to create images based on text.
     """
-    openai.api_key = f"{z}"
+    openai.api_key = os.getenv(z)
     response = openai.Image.create(prompt=f"{q}", n=1, size="1024x1024")
 
     print(response.data)
@@ -47,7 +51,7 @@ def editgpt(q, z):
     Use "edit" followed by text to proof any spelling mistakes.
     Uses text-davinci-edit-001 to correct any spelling mistakes.
     """
-    openai.api_key = f"{z}"
+    openai.api_key = os.getenv(z)
     response = openai.Edit.create(
         model="text-davinci-edit-001",
         input=f"{q}",
